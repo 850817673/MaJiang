@@ -1,0 +1,22 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "麻将出牌助手"
+      }
+    },
+    {
+      "path": "pages/game/game",
+      "style": {
+        "navigationBarTitleText": "牌局"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "麻将助手",
+    "navigationBarBackgroundColor": "#2d8c3c",
+    "backgroundColor": "#f5f5f5"
+  }
+}
