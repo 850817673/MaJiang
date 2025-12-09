@@ -2,6 +2,7 @@
 
 import fuzhouRule from './rules/fuzhou.js'
 import sichuanRule from './rules/sichuan.js'
+import { TILE_NAMES } from './mahjong.js'
 
 // H5 用代理解决 CORS，小程序直接调用
 const API_URL = process.env.UNI_PLATFORM === 'h5'
@@ -38,25 +39,34 @@ function buildRuleDesc(ruleConfig) {
 /**
  * 调用 DeepSeek 分析最优出牌
  */
-export async function analyzeOptimalDiscard({ rule, handCards, playedCards, leftCards }) {
+export async function analyzeOptimalDiscard({ rule, handCards, playedCards, leftCards, goldTile }) {
   // 获取规则配置
   const ruleConfig = rule === 'fuzhou' ? fuzhouRule : sichuanRule
   const ruleDesc = buildRuleDesc(ruleConfig)
 
-  const prompt = `你是麻将高手。根据以下牌局信息，分析最优出牌。
+  // 金牌信息
+  const goldInfo = goldTile
+    ? `当前金牌（百搭）：${TILE_NAMES[goldTile] || goldTile}，可当任意牌使用\n`
+    : ''
+
+  const prompt = `你是麻将高手。根据以下牌局信息，分析牌局。
 
 ${ruleDesc}
-我的手牌：${handCards.join(', ')}
-已出牌：${playedCards.join(', ')}
+${goldInfo}
+我的手牌（${handCards.length}张）：${handCards.join(', ')}
+已出牌：${playedCards.length ? playedCards.join(', ') : '无'}
 剩余牌数量：${JSON.stringify(leftCards)}
 
-请分析后给出：
-1. 推荐打哪张牌
-2. 简短理由（20字内）
-3. 当前听什么牌（如果听牌的话）
+福州麻将胡牌规则：
+- 无吃碰杠时，17张牌胡牌（5组面子+1对将，或特殊牌型）
+- 金牌可当任意牌使用（百搭）
+- 清一色、对对胡、三金倒等特殊牌型有额外番数
+
+请先判断当前${handCards.length}张手牌是否已经胡牌，如果能胡牌请告诉我。
+如果不能胡牌，请分析最优出牌建议（听牌数、胡牌概率、保留金牌优先）。
 
 请用JSON格式回复：
-{"bestDiscard":"牌编码","reason":"理由","ting":["听牌1","听牌2"]}`
+{"canHu":true或false,"huType":"胡牌牌型（如清一色、三金倒等）","bestDiscard":"牌编码如1W（不能胡时填写）","reason":"简短理由20字内","ting":["听牌编码"]}`
 
   try {
     const res = await uni.request({

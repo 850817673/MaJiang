@@ -5,11 +5,11 @@ export default defineConfig({
   plugins: [uni()],
   server: {
     proxy: {
-      // 代理 DeepSeek API 解决 CORS
-      '/api/deepseek': {
-        target: 'https://api.deepseek.com',
+      // 代理 Claude API 解决 CORS
+      '/api/claude': {
+        target: 'http://107.174.127.190:3001/api',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/deepseek/, '')
+        rewrite: (path) => path.replace(/^\/api\/claude/, '')
       }
     }
   }

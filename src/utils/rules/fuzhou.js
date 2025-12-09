@@ -8,10 +8,9 @@ export default {
     suits: ['wan', 'tong', 'tiao'],           // 万、筒、条三种花色
     numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9],     // 1-9
     countPerTile: 4,                           // 每种牌4张
-    includeFlowers: true,                      // 包含花牌
-    // 花牌：东南西北、中发白、春夏秋冬、梅兰竹菊
-    flowerTiles: ['dong', 'nan', 'xi', 'bei', 'zhong', 'fa', 'bai', 'chun', 'xia', 'qiu', 'dong_ji', 'mei', 'lan', 'zhu', 'ju'],
-    totalTiles: 144                            // 总共144张牌
+    includeZi: false,                          // 字牌不参与牌局，只用于记分
+    includeFlowers: false,                     // 花牌不参与牌局，只用于记分
+    totalTiles: 108                            // 只算万条饼：27种×4=108张
   },
 
   // 玩法规则
@@ -32,7 +31,7 @@ export default {
   // 发牌规则
   dealRules: {
     dealerHandCount: 17,                       // 庄家起手17张
-    nonDealerHandCount: 16,                    // 闲家起手16张
+    nonDealerHandCount: 17,                    // 闲家起手16张
     dealerSelectMethod: 'random_first_round',  // 首局随机选庄
     dealerContinuation: 'dealer_wins_or_draw'  // 庄家胡牌或流局则连庄
   },
