@@ -191,7 +191,7 @@
 <script>
 import MahjongTile from '@/components/MahjongTile/MahjongTile.vue'
 import { TILE_TYPES, initLeftCards, sortTiles, TILE_NAMES, countTiles } from '@/utils/mahjong.js'
-import { analyzeOptimalDiscard } from '@/utils/deepseek.js'
+import { analyzeOptimalDiscard } from '@/utils/ai.js'
 import fuzhouRule from '@/utils/rules/fuzhou.js'
 import sichuanRule from '@/utils/rules/sichuan.js'
 

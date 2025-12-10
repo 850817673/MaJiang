@@ -4,7 +4,9 @@
       "Bash(dir:*)",
       "Bash(npm install)",
       "Bash(npm view:*)",
-      "Bash(npm run dev:h5:*)"
+      "Bash(npm run dev:h5:*)",
+      "Bash(npm install:*)",
+      "Bash(git push:*)"
     ]
   }
 }

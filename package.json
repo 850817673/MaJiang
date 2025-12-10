@@ -9,6 +9,7 @@
     "build:mp-weixin": "uni build -p mp-weixin"
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.62",
     "vue": "^3.4.21"
   },
   "devDependencies": {

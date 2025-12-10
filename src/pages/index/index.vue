@@ -12,6 +12,22 @@
       <text class="subtitle">AI智能分析 · 最优出牌建议</text>
     </view>
 
+    <!-- AI模型选择 -->
+    <view class="modelSection">
+      <text class="sectionLabel">AI模型</text>
+      <view class="modelList">
+        <view
+          v-for="model in aiModels"
+          :key="model.id"
+          :class="['modelItem', currentModel === model.id ? 'active' : '']"
+          @click="selectModel(model.id)"
+        >
+          <text class="modelName">{{ model.name }}</text>
+          <text class="modelDesc">{{ model.desc }}</text>
+        </view>
+      </view>
+    </view>
+
     <view class="ruleList">
       <!-- 福州麻将 -->
       <view class="ruleCard fuzhou" @click="selectRule('fuzhou')">
@@ -52,8 +68,24 @@
 </template>
 
 <script>
+import { AI_MODELS, getCurrentModel, setCurrentModel, initModel } from '@/utils/ai.js'
+
 export default {
+  data() {
+    return {
+      aiModels: AI_MODELS,
+      currentModel: 'deepseek'
+    }
+  },
+  onLoad() {
+    initModel()
+    this.currentModel = getCurrentModel()
+  },
   methods: {
+    selectModel(modelId) {
+      setCurrentModel(modelId)
+      this.currentModel = modelId
+    },
     selectRule(rule) {
       uni.navigateTo({
         url: `/pages/game/game?rule=${rule}`
@@ -234,5 +266,48 @@ export default {
   font-size: 22rpx;
   color: rgba(255,255,255,0.5);
   letter-spacing: 2rpx;
+}
+
+/* AI模型选择 */
+.modelSection {
+  margin-bottom: 32rpx;
+}
+.sectionLabel {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16rpx;
+}
+.modelList {
+  display: flex;
+  gap: 20rpx;
+}
+.modelItem {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  border: 2rpx solid rgba(255,255,255,0.2);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  text-align: center;
+  transition: all 0.2s;
+}
+.modelItem.active {
+  background: rgba(255,215,0,0.2);
+  border-color: #ffd700;
+}
+.modelName {
+  display: block;
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: bold;
+}
+.modelDesc {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.6);
+  margin-top: 6rpx;
+}
+.modelItem.active .modelName {
+  color: #ffd700;
 }
 </style>
